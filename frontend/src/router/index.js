@@ -32,12 +32,12 @@ const routes = [
   {
     path: '/logout/:id',
     name: 'logout',
-    component: () => import('../components/Logout.vue')
+    component: () => import('../components/logout.vue')
   },
   {
-    path: '/Crear-usuario',
-    name: 'CrearUsuario',
-    component: () => import('../components/Crear-usuario.vue')
+    path: '/registro-local',
+    name: 'local',
+    component: () => import('../components/registro-local.vue')
   },
   {
     path: '/seleccion-person/:id',

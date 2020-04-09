@@ -26,7 +26,7 @@
 </template>
 
 <script>
-// import draggable from "vuedraggable";
+import draggable from "vuedraggable";
 let idGlobal = 8;
 export default {
   name: "seleccion",

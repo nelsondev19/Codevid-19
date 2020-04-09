@@ -5,32 +5,40 @@
       <div class="mostrar">
         <ul class="nav justify-content-center bg-dark">
           <li class="nav-item">
-            <router-link class="nav-link text-white" to="/">COVID-19</router-link>
+            <router-link class="nav-link text-white" to="/inicio">COVID-19</router-link>
           </li>
         </ul>
       </div>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-primary no-mostrar-mobile portada" id="portada">
+      <nav class="navbar navbar-expand-lg navbar-light bg-primary no-mostrar-mobile">
         <div class="collapse navbar-collapse" id="navbarNav">
-          <router-link class="navbar-brand text-white" to="/">COVID-19</router-link>
+          <router-link class="navbar-brand text-white" to="/inicio">COVID-19</router-link>
           <ul class="navbar-nav ml-auto  row justify-content-between">
-          <div  @click="classhome">
-            <router-link class="nav-link " :class="{'text-white':home , 'text-dark':!home }" to="/">Inicio</router-link>
+          <div  @click="classhome" class="mt-1">
+            <router-link class="nav-link " :class="{'text-white':home , 'text-dark':!home }" to="/inicio">Inicio</router-link>
            </div> 
-           <div @click="classnotificaciones">
+           <div @click="classnotificaciones" class="mt-1">
             <router-link class="nav-link "  :class="{'text-white':notificacion , 'text-dark':!notificacion }"    to="/notificaciones">
               <i class="material-icons "  :class="{'text-white':notificacion , 'text-dark':!notificacion }"   @click="classnotificaciones" >notifications</i>
             </router-link>
              </div>
-             <div  @click="classSearch">
+             <div  @click="classSearch" class="mt-1">
             <router-link class="nav-link " :class="{'text-white':search, 'text-dark':!search}" to="/buscar">Buscar Personas</router-link>
             </div>
-             <div  @click="classSearch">
-            <router-link class="nav-link " :class="{'text-white':search, 'text-dark':!search}" to="/contador">contador</router-link>
-            </div>
-            <div @click="classperson">
-            <router-link class="nav-link " :class="{'text-white':person , 'text-dark':!person}"   to="/login">Usuario</router-link>
-            </div>
+<!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow ">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Nelson Hernandez</span>
+                <img class="img-profile rounded-circle" src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2757601134526372&height=50&width=50&ext=1588869501&hash=AeRj92-mv8gXLRsY">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <router-link class="dropdown-item" :class="{'text-white':person , 'text-dark':!person}" :to='/perfil/+this.usuarioid'>Usuario</router-link>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  Cerrar Sesion
+                </a>
+              </div>
+            </li>
           </ul>
         </div>
       </nav>
@@ -40,7 +48,7 @@
           <div class="row">
             <div class="col mr-1 ml-3 "  :class="{'bg-primary menu-borde': home }" @click="classhome">
               
-              <router-link to="/">
+              <router-link to="/inicio">
                 <i class="material-icons md-28" :class="{'text-white':home , 'text-dark':!home }">home</i>
               </router-link>
             </div>
@@ -50,7 +58,7 @@
               </router-link>
             </div>
             <div class="col mr-2 " :class="{'bg-primary menu-borde':person}" @click="classperson">
-              <router-link :to="{name:'Login'}">
+              <router-link to="/perfil/2757601134526372">
                 <i class="material-icons  md-28" :class="{'text-white':person , 'text-dark':!person}">person</i>
               </router-link>
             </div>
@@ -58,9 +66,6 @@
               <router-link to="/notificaciones">
                 <i class="material-icons  md-28" :class="{'text-white':notificacion , 'text-dark':!notificacion}">notifications</i>
               </router-link>
-              <div  @click="classSearch">
-            <router-link class="nav-link " :class="{'text-white':search, 'text-dark':!search}" to="/contador">contador</router-link>
-            </div>
             </div>
           </div>
         </div>
@@ -72,6 +77,7 @@
 
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name:"app",
   data() {
@@ -81,6 +87,8 @@ export default {
       person: false,
       notificacion: false
     };
+  }, computed: {
+    ...mapState(['usuarioid'])
   },
   methods: {
     classhome() {
@@ -110,3 +118,10 @@ export default {
   }
 };
 </script>
+
+<style>
+.img-profile {
+    height: 2rem;
+    width: 2rem;
+}
+</style>

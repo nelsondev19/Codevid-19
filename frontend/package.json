@@ -11,9 +11,9 @@
     "axios": "^0.19.2",
     "cli-plugin-eslint": "0.0.1",
     "core-js": "^3.6.4",
-    "simplycountdown.js": "^1.5.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
+    "vuedraggable": "^2.23.2",
     "vuex": "^3.1.2"
   },
   "devDependencies": {

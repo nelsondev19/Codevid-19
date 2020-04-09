@@ -1,0 +1,60 @@
+ <div>
+    <div>
+      <div class="container">
+        <div class="row">
+          <div class="col-sm"></div>
+          <div class="col-sm">
+            <br />
+            <div class="card">
+              <div class="card-header text-center">Registrarse</div>
+              <div class="card-body">
+                <form @submit.prevent="GuardarUserLocal()">
+                  <div class="form-group">
+                    <label>Nombres de Usuario</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-describedby="emailHelp"
+                      name="username"
+                      placeholder="ej.Nelson"
+                      v-model="nombres"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Correo</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      aria-describedby="emailHelp"
+                      name="correo"
+                      placeholder="correo"
+                      v-model="correo"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Contraseña</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="Contraseña"
+                      v-model="password"
+                    />
+                  </div>
+                  <input type="file" class="d-none" ref="boton" />
+                  <button
+                    type="submit"
+                    class="btn btn-success btn-block"
+                    @click="$refs.boton.click()"
+                  >Subir imagen</button>
+                  <button type="submit" class="btn btn-primary btn-block">Crear Cuenta</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm"></div>
+        </div>
+      </div>
+    </div>
+  </div>
