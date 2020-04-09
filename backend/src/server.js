@@ -5,22 +5,26 @@ const path = require('path')
 const passport = require('passport')
 const sesion = require('express-session')
 const flash = require('connect-flash')
+const cors = require('cors');
 //initializations
 const app = express()
 require('./database')
 require('./passport/localauth')
 require('./passport/facebook-auth')
 //settings
+
 app.set('views', path.join(__dirname+ '/views'))
 app.engine('ejs', engine)
 app.set('view -engine','ejs')
 app.set('port' , process.env.PORT || 3000)
 //middlewares
+app.use(cors())
 app.use(sesion({
     secret:'mysecretsesion',
     resave:false,
     saveUninitialized:false
 }))
+
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())

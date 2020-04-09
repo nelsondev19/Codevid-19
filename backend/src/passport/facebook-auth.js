@@ -18,21 +18,25 @@ passport.use(
       clientID: 2576357032629107,
       clientSecret: "3af7d2f7630645b43ef779c148e3ce8d",
       callbackURL: "http://localhost:3000/auth/facebook/callback",
-      profileFields: ["email", "name", "photos"],
+      profileFields: ["email", "name", "photos","profileUrl"],
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = await User.findById(profile.id);
       if (user) {
-        return done(null, false);
+        return done(
+          null,
+          false
+        );
       } else {
-        console.log(profile);
+         console.log(profile);
         const { email, first_name, last_name } = profile._json;
-        console.log("perfil json", profile._json);
+        console.log("perfil ", profile);
         const user = new User();
         (user.email = email),
           (user.firstname = first_name),
           (user.last_name = last_name);
         user._id = profile.id;
+        user.imagen = profile.photos[0].value
         await user.save();
         done(null, profile);
       }
