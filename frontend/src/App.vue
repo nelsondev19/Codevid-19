@@ -10,7 +10,7 @@
         </ul>
       </div>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-primary no-mostrar-mobile">
+      <nav class="navbar navbar-expand-lg navbar-light bg-primary no-mostrar-mobile portada" id="portada">
         <div class="collapse navbar-collapse" id="navbarNav">
           <router-link class="navbar-brand text-white" to="/">COVID-19</router-link>
           <ul class="navbar-nav ml-auto  row justify-content-between">
@@ -24,6 +24,9 @@
              </div>
              <div  @click="classSearch">
             <router-link class="nav-link " :class="{'text-white':search, 'text-dark':!search}" to="/buscar">Buscar Personas</router-link>
+            </div>
+             <div  @click="classSearch">
+            <router-link class="nav-link " :class="{'text-white':search, 'text-dark':!search}" to="/contador">contador</router-link>
             </div>
             <div @click="classperson">
             <router-link class="nav-link " :class="{'text-white':person , 'text-dark':!person}"   to="/login">Usuario</router-link>
@@ -55,6 +58,9 @@
               <router-link to="/notificaciones">
                 <i class="material-icons  md-28" :class="{'text-white':notificacion , 'text-dark':!notificacion}">notifications</i>
               </router-link>
+              <div  @click="classSearch">
+            <router-link class="nav-link " :class="{'text-white':search, 'text-dark':!search}" to="/contador">contador</router-link>
+            </div>
             </div>
           </div>
         </div>

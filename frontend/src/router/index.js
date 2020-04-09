@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/inicio',
     name: 'Home',
     component: Inicio
   },
@@ -20,9 +20,29 @@ const routes = [
   
     component: () => import('../views/Notificaciones.vue')
   },{
-    path: '/login',
+    path: '/',
     name: 'Login',
     component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/perfil/:id',
+    name: 'Perfil',
+    component: () => import('../components/profile.vue')
+  },
+  {
+    path: '/logout/:id',
+    name: 'logout',
+    component: () => import('../components/Logout.vue')
+  },
+  {
+    path: '/Crear-usuario',
+    name: 'CrearUsuario',
+    component: () => import('../components/Crear-usuario.vue')
+  },
+  {
+    path: '/seleccion-person/:id',
+    name: 'seleccion',
+    component: () => import('../components/seleccion-person.vue')
   },
 ]
 
