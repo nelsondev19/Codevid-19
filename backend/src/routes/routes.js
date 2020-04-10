@@ -12,7 +12,7 @@ router.get("/auth/facebook" ,passport.authenticate("sign-up-facebook", {scope:['
 
 router.get("/auth/facebook/callback",passport.authenticate("sign-up-facebook", {session: false}),
 function(req,res) {
-  res.redirect(`http://localhost:8080/perfil/${req.user.id}`)
+   res.redirect(`http://localhost:8080/perfil/${req.user.id}`)
 }
 );
 
@@ -22,29 +22,14 @@ function(req,res) {
 }
 );
 
-//rutas con usuarios locales
-router.get("/signup", (req, res, next) => {
-  res.render("signup.ejs");
-});
+//rutas con usuarios locales  
 
-
-router.post(
-  "/signup",passport.authenticate("local-signup", {
-   successRedirect: "/profile",
-    failureRedirect: "/signup",
-
-   })
-);
-
-  //outer.post('/signup', function(req, res, next) {
-  //   passport.authenticate('local-signup', )
-  //   console.log(req.body);
-  //   res.send('recibido')
-  // });
-// router.post('/signup', (req, res,next )=> {
-//   console.log(req.body)
-//   res.send('recibido')
-// })
+router.post('/signup',
+  passport.authenticate('local-signup', { session: false }),
+  function(req, res) {
+    console.log(req.user)
+    res.redirect(`http://localhost:8080/perfil/${req.user.id}`)
+  });
 
 router.get("/signin", (req, res, next) => {
   res.render("signin.ejs");

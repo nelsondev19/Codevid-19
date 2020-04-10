@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
+const mongoose  = require('mongoose')
 const User = require('../models/user');
 
 passport.serializeUser((user, done) => {
@@ -18,20 +18,21 @@ passport.use('local-signup', new LocalStrategy({
 }, async (req, email, password, done) => {
   console.log("email",email);
   
-  console.log("local-auth",req.body);
+  console.log("local-auth", email);
   
-  // const user = await User.findOne({'email': email})
-  // console.log(user)
-  // if(user) {
-  //   return done(null, false, req.flash('signupMessage', 'The Email is already Taken.'));
-  //  } else {
-  //   const newUser = new User();
-  //   newUser.email = email;
-  //   newUser.password = newUser.encryptPassword(password);
-  // console.log(newUser)
-  //    await newUser.save();
-  // done(null, newUser);
-  // }
+   const user = await User.findOne({'email': email})
+    console.log(user)
+   if(user) {
+     return done(null, false, req.flash('signupMessage', 'The Email is already Taken.'));
+    } else {
+     const newUser = new User();
+     newUser.email = email;
+     newUser.password = newUser.encryptPassword(password);
+     newUser._id = new mongoose.Types.ObjectId(); //genera el de mongodb
+   console.log(newUser)
+     await newUser.save();
+   done(null, newUser);
+   }
  }));
 
 passport.use('local-signin', new LocalStrategy({
