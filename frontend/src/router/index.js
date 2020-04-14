@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Inicio from '../views/Inicio.vue'
-
+import  {mapState} from 'vuex'
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/inicio',
+    path: '/inicio/:idUser',
     name: 'Home',
-    component: Inicio
+    component: Inicio 
   },
   {
-    path: '/buscar',
+    path: '/buscar/:id',
     name: 'Buscar',
     component: () => import( '../views/Buscar.vue')
   },{
-    path: '/notificaciones',
+    path: '/notificaciones/:id',
     name: 'Notificaciones',
   
     component: () => import('../views/Notificaciones.vue')
@@ -23,6 +23,10 @@ const routes = [
     path: '/',
     name: 'Login',
     component: () => import('../views/Login.vue')
+  },{
+    path: '/login-err',
+    name: 'Login-err',
+    component: () => import('../views/Login-err.vue')
   },
   {
     path: '/perfil/:id',
@@ -30,7 +34,7 @@ const routes = [
     component: () => import('../components/profile.vue')
   },
   {
-    path: '/logout/:id',
+    path: '/logout',
     name: 'logout',
     component: () => import('../components/logout.vue')
   },
@@ -38,6 +42,11 @@ const routes = [
     path: '/registro-local',
     name: 'local',
     component: () => import('../components/registro-local.vue')
+  },
+  {
+    path: '/registro-local/err',
+    name: 'Registro-local-err',
+    component: () => import('../components/Registro-local-err.vue')
   },
   {
     path: '/seleccion-person/:id',

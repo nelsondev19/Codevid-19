@@ -36,7 +36,7 @@ passport.use(
           (user.firstname = first_name),
           (user.last_name = last_name);
         user._id = profile.id;
-        user.imagen = profile.photos[0].value
+        user.urlimage = profile.photos[0].value
         await user.save();
         done(null, profile);
       }

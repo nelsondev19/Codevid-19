@@ -8,6 +8,7 @@
             <div class="col-sm">
               <br />
               <div class="card">
+                   <div class="card-header text-center text-danger">EL correo o la contraseña ingresados son erroneos.</div>
                 <div class="card-header text-center">Iniciar Sesión</div>
                 <div class="card-body">
                   <a

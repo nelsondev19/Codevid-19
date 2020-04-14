@@ -9,9 +9,10 @@ const userSchema = new Schema({
     last_name: String,
     urlimage:String,
     _id:String,
-    incluido: {type: Boolean, default: false}
-});
-
+    incluido: {type: Boolean, default: false},
+    DateCreation: {type:Date , default: new Date().toISOString()}
+    
+}); 
 userSchema.methods.encryptPassword =  (password) => {
     return   bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 }
