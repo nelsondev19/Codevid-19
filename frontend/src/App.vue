@@ -20,7 +20,7 @@
                 :class="{'text-white':home , 'text-dark':!home }"
                 :to="/inicio/ + this.id"
               >Inicio</router-link>
-            </div>
+            </div> 
             <div @click="classnotificaciones" class="mt-1">
               <router-link
                 class="nav-link"

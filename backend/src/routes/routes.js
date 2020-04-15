@@ -70,8 +70,25 @@ router.post('/signup', function(req, res, next) {
   });
 
 
+router.put('/changePhoto', async(req, res )=> {
+  console.log(req.body.image)
+  const  id = req.body.id 
+  console.log(id)
+await   User.findOneAndUpdate(req.params.id ,{
+        urlimage:req.body.image
+    })
+   res.send('actualizado correctamente')
+})
 
 
+// async (req, res) => {
+//   const { title, content, author } = req.body;
+//   console.log(req.params.id, req.body);
+//   await Notes.findOneAndUpdate(req.params.id ,{
+//       title: title,
+//       content: content,
+//       author: author
+//   })
 
 
 router.get("/logout", (req, res, next) => {

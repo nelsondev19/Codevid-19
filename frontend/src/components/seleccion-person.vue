@@ -17,7 +17,7 @@
 </div>
           <div  v-for="(element) in listUsers"
           :key="element.id" @click="agregarPersona(element.name, element.id)">
-                <ul class="list-unstyled card ">
+                <ul class="list-unstyled card color-hover ">
                   <li class="media">
                      <img
                     src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2757601134526372&height=50&width=50&ext=1588869501&hash=AeRj92-mv8gXLRsY"
@@ -44,7 +44,14 @@
         </div>
       </div>
       <div>
-        <h1>{{listAsignado[0].name}}</h1>
+        <br/><br/><br/><br/>
+   <div class="card mr-2 ml-4 "> 
+        <div class="card-body text-center"> 
+          <p class="font-weight-bolder">{{listAsignado[0].name}}</p>
+          <p>nelson@gmail.com</p>
+          <button class="btn btn-primary">Asignar</button>
+        </div>
+   </div>
       </div>
       
     </div>
@@ -162,6 +169,9 @@ export default {
   overflow-x: hidden;
 }
 .color-card{
+  background-color: #EDEDED;
+}
+.color-hover:hover{
   background-color: #EDEDED;
 }
 
