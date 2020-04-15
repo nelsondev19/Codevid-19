@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const User = require("../models/user");
+const Grupo = require("../models/grupo.js");
 let valor = null;
 
 //rutas para facebook
@@ -35,67 +36,71 @@ router.get(
   }
 );
 
-router.post('/signup', function(req, res, next) {
-  passport.authenticate('local-signup', function(err, user) {
-    if (err) { return next(err); }
-    if (!user) { return res.redirect(`http://localhost:8080/registro-local/err`); }
-    req.logIn(user, function(err) {
-      if (err) { return next(err); }
+router.post("/signup", function (req, res, next) {
+  passport.authenticate("local-signup", function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect(`http://localhost:8080/registro-local/err`);
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return next(err);
+      }
       return res.redirect(`http://localhost:8080/perfil/${user.id}`);
     });
   })(req, res, next);
 });
 
+router.post("/signin", function (req, res, next) {
+  passport.authenticate("local-signin", function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.redirect(`http://localhost:8080/login-err`);
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return next(err);
+      }
+      return res.redirect(`http://localhost:8080/perfil/${user.id}`);
+    });
+  })(req, res, next);
+});
 
-// router.post(
-//   "/signin",
-//   passport.authenticate('local', function (err, user, info) {
-//     if (err) { return next(err); }
-
-//     if (!user) { return res.redirect('/login'); }
-//     if (err) { return next(err); }
-//     return res.redirect('/users/' + user.username);
-
-//   }));
-
-  router.post('/signin', function(req, res, next) {
-    passport.authenticate('local-signin', function(err, user) {
-      if (err) { return next(err); }
-      if (!user) { return res.redirect(`http://localhost:8080/login-err`); }
-      req.logIn(user, function(err) {
-        if (err) { return next(err); }
-        return res.redirect(`http://localhost:8080/perfil/${user.id}`);
-      });
-    })(req, res, next);
+router.put("/changePhoto", async (req, res) => {
+  console.log(req.body.image);
+  const id = req.body.id;
+  console.log(id);
+  await User.findOneAndUpdate(id, {
+    urlimage: req.body.image,
   });
+  res.send("actualizado correctamente");
+});
 
+router.post("/createGrupo", async (req, res) => {
+  console.log(req.body);
+  await  User.findByIdAndUpdate(req.body.idCreador, {
+    incluido: true,
+  });
+  const user = await User.findOne({ _id: req.body.idCreador });
 
-router.put('/changePhoto', async(req, res )=> {
-  console.log(req.body.image)
-  const  id = req.body.id 
-  console.log(id)
-await   User.findOneAndUpdate(req.params.id ,{
-        urlimage:req.body.image
-    })
-   res.send('actualizado correctamente')
-})
-
-
-// async (req, res) => {
-//   const { title, content, author } = req.body;
-//   console.log(req.params.id, req.body);
-//   await Notes.findOneAndUpdate(req.params.id ,{
-//       title: title,
-//       content: content,
-//       author: author
-//   })
-
+  const grupo = new Grupo();
+  grupo.nombreGrupo = req.body.nombreGrupo;
+  grupo.fechaCreacionGrupo = req.body.fechaCreacionGrupo;
+  grupo.creador = user;
+  await grupo.save();
+  console.log(grupo);
+  res.send("grupo creado");
+});
 
 router.get("/logout", (req, res, next) => {
   req.logout(); //el  true de la sesion lo hace un false pero siempre se mantiene en false
   console.log(req.isAuthenticated());
   res.redirect("http://localhost:8080/");
-  next()
+  next();
 });
 
 function isAuthenticated(req, res, next) {
@@ -117,7 +122,7 @@ router.get("/oneUser/:id", async (req, res) => {
 });
 
 //trayendo collecion de todos los usuarios
-router.get("/getUsers",async(req, res, next) => {
+router.get("/getUsers", async (req, res, next) => {
   const usuarios = await User.find();
   res.send(usuarios);
 });

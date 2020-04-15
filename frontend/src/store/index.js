@@ -12,15 +12,7 @@ export default new Vuex.Store({
     navbar:false
   },
   mutations: {
-    traerID(state, payload) {
-      this.state.usuarioid = payload;
-    },
-    borrarID(state, payload){
-      this.state.usuarioid = payload
-    },
-    getName(state, payload){
-this.state.UserName = payload
-    },
+
     putNavbar(state, payload){
       this.state.navbar = payload
     },quitNavbar(state, payload){
@@ -28,15 +20,7 @@ this.state.UserName = payload
     },
   },
   actions: {
-    getId({ commit }, payload) {
-      console.log(payload);
-      commit("traerID", payload);
-    },
-    
-    getName({commit},payload){
-      console.log("payload del nombre de usuario",payload)
-      commit('getName',payload)
-    },
+
     putNavbar({commit},payload){
       console.log(payload)
       commit("putNavbar",payload)
@@ -45,6 +29,8 @@ this.state.UserName = payload
       console.log(payload)
       commit("quitNavbar",payload)
       sessionStorage.removeItem('id');
+      sessionStorage.removeItem("nombre");
+         sessionStorage.removeItem("imagen");
       router.push({name:'Login'})
     }
   },

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const grupoSchema = new Schema({
-  nombre: { type: String },
+  nombreGrupo: { type: String },
   creador: [
     {
       email: String,

@@ -11,33 +11,33 @@
             <br />
             <div class="card border-0">
               <div class="card-body text-center">
-                <img
+                 <img
                   :src="usuario.urlimage"
                   alt="Avatar"
                   class="avatar sombreado"
                 />
                 <br />
                 <br />
-                {{ usuarioid }}
+                {{ usuario }}
                 <p class="card-text">{{ usuario.firstname }}</p>
                 <p class="card-text">{{ usuario.email }}</p>
       <pacman-loader :loading="cargar"></pacman-loader>
                 <div v-if="!cargar">
                   <input type="file" ref="boton" class="d-none" @change="buscarImagen($event)" />
-                  <v-btn
+                  <button
                     class="mt-3 btn btn-outline-success btn-block"
                     @click="$refs.boton.click()"
-                  >Buscar Imagen</v-btn>
+                  >Buscar Imagen</button>
                   <div class="card-header text-center mt-4" v-if="archivo != null">
                     <img class="my-3 mx-3" :src="URLimage" height="300" width="500" />
                     <h3>{{ archivo.name }}</h3>
                     <input name="image" v-model="cloudimage" class="d-none" />
                   </div>
-                  <v-btn
+                  <button
                     v-if="archivo!==null"
                     class="mt-3 btn btn-outline-danger btn-block"
                     @click="subirImagen()"
-                  >guardar cambios</v-btn>
+                  >guardar cambios</button>
 
                   <div class="card-header text-center mt-4" v-if="error != null">
                     <h3>{{ error }}</h3>
@@ -83,8 +83,9 @@ export default {
       if (apellido == undefined) {
         apellido = "";
       }
-
-      this.getName(this.usuario.firstname + " " + apellido);
+      
+      sessionStorage.setItem('imagen', this.usuario.urlimage)
+      sessionStorage.setItem('nombre',this.usuario.firstname + " " + apellido);
     }, 1000);
   },
   data() {
@@ -111,10 +112,12 @@ export default {
             router.push({ name: "Login" });
           }
         });
-      this.getName(this.usuario.firstname + " " + this.usuario.last_name);
+     
     },
     cerrarSesion() {
       sessionStorage.removeItem("id");
+      sessionStorage.removeItem("nombre");
+      sessionStorage.removeItem("imagen");
       router.push({ name: "Login" });
     },
     async buscarImagen(event) {

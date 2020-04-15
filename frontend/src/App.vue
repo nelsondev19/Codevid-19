@@ -55,10 +55,10 @@
                 <span 
                   class="mr-2 d-none d-lg-inline"
                   :class="{'text-white':person , 'text-dark':!person}"
-                >{{ UserName }}</span>
+                >{{ nombreUser }}</span>
                 <img
                   class="img-profile rounded-circle"
-                  src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2757601134526372&height=50&width=50&ext=1588869501&hash=AeRj92-mv8gXLRsY"
+                  :src="image"
                 />
               </a>
               <!-- Dropdown - User Information -->
@@ -133,6 +133,8 @@ export default {
   mounted() {
     setTimeout(() => {
       this.id = sessionStorage.getItem("id");
+      this.image = sessionStorage.getItem('imagen')
+      this.nombreUser = sessionStorage.getItem('nombre')
     }, 1500);
   },
   name: "app",
@@ -145,18 +147,20 @@ export default {
       person: false,
       user: [],
       id: "",
+      image:"",
+      nombreUser:""
      
     };
   },
   computed: {
-    ...mapState(["usuarioid", "UserName","navbar"])
+    ...mapState(["navbar"])
   },
   methods: {
     classhome() {
       this.home = true;
       this.search = false;
       this.person = false;
-      this.notificacion = false;
+      this.notificacion = false; 
       this.person = false;
     },
     classSearch() {
@@ -190,6 +194,8 @@ export default {
     DeleteIdUser() {
       this.navbar=false
       sessionStorage.removeItem("id");
+      sessionStorage.removeItem("nombre");
+      sessionStorage.removeItem("imagen");
       router.push({ name: "Login" });
     },
     ...mapActions(["borrarID"])

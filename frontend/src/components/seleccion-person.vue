@@ -50,6 +50,8 @@
           <p class="font-weight-bolder">{{listAsignado[0].name}}</p>
           <p>nelson@gmail.com</p>
           <button class="btn btn-primary">Asignar</button>
+       <p class="mt-2">tu permiso termina en:</p>
+        <div class="alert alert-primary" role="alert">{{horaAdelantada}}</div>
         </div>
    </div>
       </div>
