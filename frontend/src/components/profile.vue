@@ -18,7 +18,7 @@
                 />
                 <br />
                 <br />
-                {{ usuario }}
+
                 <p class="card-text">{{ usuario.firstname }}</p>
                 <p class="card-text">{{ usuario.email }}</p>
       <pacman-loader :loading="cargar"></pacman-loader>
@@ -74,7 +74,9 @@ export default {
   },
   mounted() {
     this.putNavbar(true);
-    sessionStorage.setItem("id", this.$route.params.id);
+
+      sessionStorage.setItem("id", this.$route.params.id);
+ 
     const id = sessionStorage.getItem("id");
     console.log("mi id es ", id);
 
@@ -83,7 +85,7 @@ export default {
       if (apellido == undefined) {
         apellido = "";
       }
-      
+      sessionStorage.setItem('idGrupo', this.usuario.idGrupo)
       sessionStorage.setItem('imagen', this.usuario.urlimage)
       sessionStorage.setItem('nombre',this.usuario.firstname + " " + apellido);
     }, 1000);
@@ -115,6 +117,7 @@ export default {
      
     },
     cerrarSesion() {
+      sessionStorage.removeItem("idGrupo");
       sessionStorage.removeItem("id");
       sessionStorage.removeItem("nombre");
       sessionStorage.removeItem("imagen");
@@ -139,7 +142,7 @@ export default {
       reader.readAsDataURL(this.archivo);
       reader.onload = e => {
         e.preventDefault();
-        console.log(e.target.result);
+        
         this.URLimage = e.target.result;
       };
     },

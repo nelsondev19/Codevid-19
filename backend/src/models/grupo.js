@@ -3,6 +3,7 @@ const { Schema } = mongoose;
 
 const grupoSchema = new Schema({
   nombreGrupo: { type: String },
+  _id:{ type: String },
   creador: [
     {
       email: String,
@@ -11,7 +12,7 @@ const grupoSchema = new Schema({
       last_name: String,
       urlimage: String,
       _id: String,
-      incluido: { type: Boolean, default: false },
+      incluido: { type: Boolean},
     },
   ],
   familiares: [
@@ -23,6 +24,7 @@ const grupoSchema = new Schema({
       urlimage: String,
       _id: String,
       incluido: { type: Boolean, default: false },
+      idGrupo:{type:String}
     },
   ],
   fechaCreacionGrupo: { type: String, default: new Date().toISOString()},

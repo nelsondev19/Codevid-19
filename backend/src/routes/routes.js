@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const User = require("../models/user");
 const Grupo = require("../models/grupo.js");
-let valor = null;
+const mongoose  = require('mongoose')
 
 //rutas para facebook
 router.get(
@@ -74,26 +74,28 @@ router.put("/changePhoto", async (req, res) => {
   console.log(req.body.image);
   const id = req.body.id;
   console.log(id);
-  await User.findOneAndUpdate(id, {
+  await User.findByIdAndUpdate(id, {
     urlimage: req.body.image,
   });
   res.send("actualizado correctamente");
 });
 
 router.post("/createGrupo", async (req, res) => {
-  console.log(req.body);
-  await  User.findByIdAndUpdate(req.body.idCreador, {
+   await  User.findByIdAndUpdate(req.body.idCreador, {
     incluido: true,
+    idGrupo:req.body.idCreador
   });
+  
   const user = await User.findOne({ _id: req.body.idCreador });
 
   const grupo = new Grupo();
   grupo.nombreGrupo = req.body.nombreGrupo;
   grupo.fechaCreacionGrupo = req.body.fechaCreacionGrupo;
-  grupo.creador = user;
+  grupo.creador = [user];
+  grupo._id = user._id
   await grupo.save();
   console.log(grupo);
-  res.send("grupo creado");
+  res.status(200).send('recibido correctamente')
 });
 
 router.get("/logout", (req, res, next) => {
@@ -126,4 +128,30 @@ router.get("/getUsers", async (req, res, next) => {
   const usuarios = await User.find();
   res.send(usuarios);
 });
+
+router.get("/getGrupo/:id", async (req,res)=>{
+     const id = req.params.id
+    const grupo =  await Grupo.findById({_id: id})
+    if (grupo == null) {
+      res.status(404).json({ "incluido": false})  
+    }else{
+      res.status(200).json({ "incluido": true})  
+    }
+})
+
+//esta ruta introduce al usuario en el array familia
+router.post('/setUsersGroup/', async(req,res)=> {
+  const NewUser = await User.findByIdAndUpdate({_id: req.body.idNewUser},{idGrupo:req.body.idCreador ,incluido:true},  {new: true})
+  
+ const grupo =  await  Grupo.update({_id: req.body.idCreador}, {$push: {"familiares": NewUser} })
+  res.json({"saludo":"hola"})
+
+})
+
+router.get('/getFamily/:idgrupo', async(req,res)=> {
+   const idGrupo = req.params.idgrupo
+  const grupo = await Grupo.findOne({_id: idGrupo})
+  res.json(grupo)
+})
+
 module.exports = router;

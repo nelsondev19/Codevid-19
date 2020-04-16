@@ -1,5 +1,10 @@
 <template>
   <div>
+    <!-- Colocando spinner de carga -->
+    <div class="d-flex justify-content-center mt-2" v-if="carga">
+      <div class="spinner-border" role="status"></div>
+    </div>
+
     <!-- pantalla en pc -->
     <div class="no-mostrar-mobile">
       <!-- contenedor dividido en tres partes -->
@@ -26,8 +31,8 @@
     <div class="container no-mostrar-mobile">
       <div class="row">
         <div class="col-md-4" v-for="u in BuscarUsuario" :key="u._id">
-          <div class="card">
-            <div class="card-body">
+          <div class="card mt-4">
+            <div class="card-body mt-4">
               <img
                 src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2757601134526372&height=50&width=50&ext=1588869501&hash=AeRj92-mv8gXLRsY"
                 class="avatar"
@@ -35,7 +40,10 @@
               />
               <small class="mt-2">{{ u.firstname }} {{u.last_name}} {{TimeAgo(u.DateCreation)}}</small>
               <div class="d-flex justify-content-center">
-                <button class="btn color-boton btn-sm text-white">Agregar</button>
+                <button
+                  class="btn color-boton btn-sm text-white"
+                  @click="agregarGrupo(u._id)"
+                >Agregar</button>
               </div>
             </div>
           </div>
@@ -57,15 +65,11 @@
       <div v-for="u in BuscarUsuario" :key="u._id">
         <ul class="list-unstyled card bg-light">
           <li class="media">
-            <img
-              :src="u.urlimage"
-              class="avatar"
-              alt="..."
-            />
+            <img :src="u.urlimage" class="avatar" alt="..." />
             <div class="media-body">
               <h6 class="text-dark mt-3">{{ u.firstname }}</h6>
               <h6>{{TimeAgo(u.DateCreation)}}</h6>
-              <div class="d-flex justify-content-end mr-1">..</div>
+              <div class="d-flex justify-content-end mr-1"></div>
             </div>
           </li>
         </ul>
@@ -86,13 +90,15 @@ export default {
   data() {
     return {
       usuarios: [],
-      filtroUsuarios: ""
+      filtroUsuarios: "",
+      carga: true
     };
   },
   computed: {
     ...mapState(["usuarioid"]),
     BuscarUsuario() {
       return this.usuarios.filter(usuario => {
+        
         return usuario.firstname.includes(this.filtroUsuarios);
       });
     }
@@ -103,16 +109,34 @@ export default {
         .then(res => res.json())
         .then(data => {
           this.usuarios = data;
-          console.log(data);
+          this.carga = false; // poniendo en false el spinner
         })
         .catch(err => console.log(err));
     },
     TimeAgo(fecha) {
       return moment(fecha).format("LL");
+    },
+    agregarGrupo(id) {
+      let data = {"idNewUser": id,"idCreador": sessionStorage.getItem("id")}
+      fetch("http://localhost:3000/setUsersGroup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
 </script>
+
+
 
 <style>
 .borde-redondo {

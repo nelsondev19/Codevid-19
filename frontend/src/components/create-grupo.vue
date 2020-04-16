@@ -21,46 +21,32 @@
                 >Todavia no tienes un grupo creado o un familiar no te ingreso a un grupo</p>
                 <button
                   type="button"
+                  class="btn btn-outline-danger btn-block"
+                  @click="mostrarForm = false"
+                  v-if="mostrarForm"
+                >Cancelar</button>
+                <button
+                  type="button"
                   class="btn btn-outline-primary btn-block"
-                  data-target="#exampleModal"
-                  data-toggle="modal"
+                  @click="mostrarForm = true"
+                  v-else
                 >Crear Grupo</button>
+                <form v-show="mostrarForm" @submit.prevent="crearGrupo()">
+                  <div class="form-group">
+                    <p class="text-center">Nombre de grupo o familia</p>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Ejem. Familia Hernandez"
+                      v-model="nombreGrupo"
+                      
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">Crear</button>
+                </form>
               </div>
             </div>
-            <!-- Modal -->
-            <div
-              class="modal fade"
-              id="exampleModal"
-              tabindex="-1"
-              role="dialog"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <p class="text-center">Nombre de grupo o familia</p>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="exampleInputfamilia"
-                        placeholder="ej. Familia Hernandez"
-                        v-model="nombreGrupo"
-                      />
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn color-boton text-white"
-                      data-dismiss="modal"
-                    >Cerrar</button>
-                    <button type="button" class="btn color-boton text-white" @click="crearGrupo()">Cerrar Grupo</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <br />
           </div>
           <div class="col-sm"></div>
         </div>
@@ -70,19 +56,30 @@
 </template>
 
 <script>
+import router from '../router'
 export default {
   data() {
     return {
-      nombreGrupo: ""
+      nombreGrupo: "",
+      mostrarForm: false
     };
   },
   methods: {
+    mostrarNotificacion() {
+      this.$toast.open({
+        message: `Se guardo correctamente`,
+        type: "success",
+        duration: 3000,
+        dismissible: true
+      });
+    },
     crearGrupo() {
+      sessionStorage.setItem('idGrupo', sessionStorage.getItem("id"))
       let data = {
-        "nombreGrupo": this.nombreGrupo,
-        "idCreador": sessionStorage.getItem("id"),
-        "fechaCreacionGrupo": new Date().toISOString(),
-      }
+        nombreGrupo: this.nombreGrupo,
+        idCreador: sessionStorage.getItem("id"),
+        fechaCreacionGrupo: new Date().toISOString()
+      };
       fetch("http://localhost:3000/createGrupo", {
         method: "POST",
         headers: {
@@ -90,6 +87,12 @@ export default {
         },
         body: JSON.stringify(data)
       })
+        .then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then( () => {
+          this.mostrarNotificacion()// mostrar notificacion al guardarse
+          router.push({name:'seleccion'})
+        });
     }
   }
 };

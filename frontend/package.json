@@ -16,9 +16,11 @@
     "npm": "^6.14.4",
     "run": "^1.4.0",
     "serve": "^11.3.0",
+    "toastr": "^2.1.4",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",
     "vue-spinner": "^1.0.3",
+    "vue-toast-notification": "^0.2.0",
     "vuelidate": "^0.7.5",
     "vuex": "^3.1.2"
   },

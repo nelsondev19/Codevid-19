@@ -22,10 +22,12 @@ const routes = [
   },{
     path: '/',
     name: 'Login',
+    hidden: true, // esto sirve para no mostrar lo que hay 
     component: () => import('../views/Login.vue')
   },{
     path: '/login-err',
     name: 'Login-err',
+    hidden: true, // esto sirve para no mostrar lo que hay 
     component: () => import('../views/Login-err.vue')
   },
   {
@@ -41,11 +43,13 @@ const routes = [
   {
     path: '/registro-local',
     name: 'local',
+    hidden: true, // esto sirve para no mostrar lo que hay 
     component: () => import('../components/registro-local.vue')
   },
   {
     path: '/registro-local/err',
     name: 'Registro-local-err',
+    hidden: true, // esto sirve para no mostrar lo que hay 
     component: () => import('../components/Registro-local-err.vue')
   },
   {
