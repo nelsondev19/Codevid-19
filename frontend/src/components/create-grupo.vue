@@ -39,7 +39,6 @@
                       class="form-control"
                       placeholder="Ejem. Familia Hernandez"
                       v-model="nombreGrupo"
-                      
                     />
                   </div>
                   <button type="submit" class="btn btn-primary btn-block">Crear</button>

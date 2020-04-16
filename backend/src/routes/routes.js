@@ -147,11 +147,22 @@ router.post('/setUsersGroup/', async(req,res)=> {
   res.json({"saludo":"hola"})
 
 })
-
+//obtener la coleccion del grupo familiar
 router.get('/getFamily/:idgrupo', async(req,res)=> {
    const idGrupo = req.params.idgrupo
   const grupo = await Grupo.findOne({_id: idGrupo})
   res.json(grupo)
 })
+//asignar persona                                   
+router.post('/AsignarPersona', async(req,res)=> {
+  console.log(req.body)
+  const userAsignado = await User.findOne({_id: req.body.idAsignado})
+
+  const grupo =  await  Grupo.findOne({_id: req.body.idGrupo})
+  
+    
+  res.json({"asignado": "prueba" })
+})
+
 
 module.exports = router;

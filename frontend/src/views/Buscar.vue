@@ -34,7 +34,7 @@
           <div class="card mt-4">
             <div class="card-body mt-4">
               <img
-                src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2757601134526372&height=50&width=50&ext=1588869501&hash=AeRj92-mv8gXLRsY"
+                :src="u.urlimage"
                 class="avatar"
                 alt="..."
               />
@@ -43,6 +43,7 @@
                 <button
                   class="btn color-boton btn-sm text-white"
                   @click="agregarGrupo(u._id)"
+                  :disabled="u.incluido"
                 >Agregar</button>
               </div>
             </div>
@@ -104,6 +105,14 @@ export default {
     }
   },
   methods: {
+      mostrarNotificacion() {
+      this.$toast.open({
+        message: `Solicitud enviada`,
+        type: "success",
+        duration: 3000,
+        dismissible: true
+      });
+    },
     ObtenerUsuario() {
       fetch("http://localhost:3000/getUsers")
         .then(res => res.json())
@@ -126,7 +135,7 @@ export default {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            
+            this.mostrarNotificacion()
         })
         .catch(err => {
           console.log(err);

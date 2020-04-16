@@ -3,15 +3,15 @@
     <div class="no-mostrar-mobile">
       <div class="row">
         <div class="col-4">
-          <div class="card color-card">
+          <div class="card color-card"  v-for="(element) in family.creador" :key="element._id">
             <div class="card-body">
               <p class="font-weight-bold">
                 <img
-                  src="https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2757601134526372&height=50&width=50&ext=1588869501&hash=AeRj92-mv8gXLRsY"
+                  :src="element.urlimage"
                   alt="Avatar"
                   class="avatar sombreado"
                 />
-                Nelson Hernandez
+                {{ element.firstname}}
               </p>
 
               <input
@@ -23,8 +23,8 @@
           </div>
           <div
             v-for="(element) in family.familiares"
-            :key="element.id"
-            @click="agregarPersona(element.name, element.id)"
+            :key="element._id"
+            @click="agregarPersona(element.firstname, element._id, element.email, element.idGrupo)"
           >
             <ul class="list-unstyled card color-hover">
               <li class="media">
@@ -58,8 +58,8 @@
             <div class="card mr-2 ml-4">
               <div class="card-body text-center">
                 <p class="font-weight-bolder">{{listAsignado[0].name}}</p>
-                <p>nelson@gmail.com</p>
-                <button class="btn btn-primary">Asignar</button>
+                <p>{{listAsignado[0].email}}</p>
+                <button class="btn btn-primary"  @click="AsignarUsuario(listAsignado[0].id , listAsignado[0].idGrupo)">Asignar</button>
                 <p class="mt-2">tu permiso termina en:</p>
                 <div class="alert alert-primary" role="alert">{{horaAdelantada}}</div>
               </div>
@@ -73,11 +73,11 @@
       <div>
         <div class="nav-scroller py-1 mb-2">
           <nav class="nav d-fle justify-content-between">
-            <div v-for="(element) in family.familiares" :key="element._id">
+            <div  v-for="(element) in family.familiares" :key="element._id">
               <div class="card mr-2">
                 <div
                   class="card-body text-center"
-                  @click="agregarPersona(element.name, element.id)"
+                 @click="agregarPersona(element.firstname, element._id, element.email)"
                 >
                   <img :src="element.urlimage" alt="Avatar" class="avatar sombreado" />
                   <br />
@@ -113,7 +113,7 @@
         />
         <br />
         <br />
-        <p class="card-text">{{listAsignado[0].name}}</p>
+        <p class="card-text">{{listAsignado[0].nam}}</p>
         <button
           type="button"
           class="btn bg-primary btn-block text-white"
@@ -151,10 +151,11 @@ export default {
     return {
       family: [],
       list2: [],
-      listAsignado: [{ name: "", id: 0 }],
+      listAsignado: [{ name: "", id: 0 , email: "" ,idGrupo:""}],
       controlOnStart: true,
       permiso: false,
       horaAdelantada: ""
+      
     };
   },
   methods: {
@@ -169,8 +170,8 @@ export default {
         })
         .catch(err => console.log(err));
     },
-    agregarPersona(nombre, idUser) {
-      this.listAsignado = [{ name: nombre, id: idUser }];
+    agregarPersona(nombre, idUser, email, idGrupo) {
+      this.listAsignado = [{ name: nombre, id: idUser , email: email, idGrupo:idGrupo}];
     },
     obtenerPermiso() {
       this.permiso = !this.permiso;
@@ -182,6 +183,22 @@ export default {
       this.horaAdelantada = moment(fechaAdelantada)
         .countdown()
         .toString();
+    },
+    AsignarUsuario(idAsignado, idGrupo){
+      let data = {"idAsignado": idAsignado, "idGrupo":idGrupo}
+      fetch("http://localhost:3000/AsignarPersona", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            this.mostrarNotificacion()
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

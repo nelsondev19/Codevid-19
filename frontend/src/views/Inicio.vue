@@ -8,7 +8,6 @@
 
 <script>
 // @ is an alias to /src
-
 import createGrupo from "@/components/create-grupo.vue";
 import seleccionPerson from "@/components/seleccion-person.vue";
 export default {
