@@ -38,7 +38,7 @@
         </div>
         <div class="col-8">
           <div class="card border-0">
-            <div class="card-body text-center"  v-show="listAsignado[0].name  == null && asignar == false">
+            <div class="card-body text-center"  v-show=" asignar == false && elegido == false">
               <img
                 src="../imagenes/select-user.png"
                 alt="seleccion de perfil"
@@ -55,11 +55,21 @@
             <br />
             <br />
             <br />
-            <div class="card mr-2 ml-4" v-show="asignar">
+            <div class="card mr-2 ml-4" v-show="asignar  && elegido ==  false">
               <div class="card-body text-center" >
                 <p class="font-weight-bolder">{{listAsignado[0].name}}</p>
                 <p>{{listAsignado[0].email}}</p>
                 <button class="btn btn-primary"  @click="AsignarUsuario(listAsignado[0].id , listAsignado[0].idGrupo)">Asignar</button>
+                  <p class="mt-2">tu permiso termina en:</p>
+                <div class="alert alert-primary" role="alert">{{horaAdelantada}}</div>
+              </div>
+            </div>
+                <div class="card mr-2 ml-4" v-if="elegido"  >
+              <div class="card-body text-center" >
+                {{ asignado }}
+                <p class="font-weight-bolder">{{asignado.firstname}}</p>
+                <p>{{asignado.email}}</p>
+               <p>id del grupo : {{ asignado.idGrupo }} </p>
                   <p class="mt-2">tu permiso termina en:</p>
                 <div class="alert alert-primary" role="alert">{{horaAdelantada}}</div>
               </div>
@@ -157,7 +167,9 @@ export default {
       listAsignado: [{ name: null, id: 0 , email: "" ,idGrupo:""}],
       controlOnStart: true,
       horaAdelantada: "",
-      asignar: false
+      asignar: false,
+      elegido:false,
+      asignado:[]
     };
   },
   methods: {
@@ -176,7 +188,9 @@ export default {
         .then(res => res.json())
         .then(data => {
           console.log(data);
-          
+          console.log(data.asignado[0].elegido)
+                    this.elegido = data.asignado[0].elegido
+                    this.asignado = data.asignado[0]
           this.family = data;
         })
         .catch(err => console.log(err));

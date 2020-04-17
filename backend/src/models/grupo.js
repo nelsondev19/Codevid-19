@@ -32,6 +32,7 @@ const grupoSchema = new Schema({
   fechaInicio: {type: String},
   fechaCaducidad: { type: String },
   asignado: [
+    
     {
       email: String,
       password: String,

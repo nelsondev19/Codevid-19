@@ -1,5 +1,10 @@
 <template>
-  <div id="app">
+  <div id="app" > 
+    <div v-if="cargar"> 
+
+
+ <pulse-loader :loading="cargar" ></pulse-loader>
+    </div>
     <div>
       <!-- Esto se vera en pantalla de movil -->
       <div class="mostrar">
@@ -69,9 +74,9 @@
                 <div @click="classperson">
                   <router-link class="dropdown-item" :to="/perfil/+this.id">Usuario</router-link>
                 </div>
-                <div @click="DeleteIdUser()">
-                  <a href="http://localhost:3000/logout" style="text-decoration:none">Cerrar Sesion</a>
-                </div>
+                
+                  <a  @click="DeleteIdUser()"  href="http://localhost:3000/logout" style="text-decoration:none">Cerrar Sesion</a>
+                
               </div>
             </li>
           </ul>
@@ -129,27 +134,30 @@
 <script>
 import router from "./router";
 import { mapState, mapActions } from "vuex";
+import PulseLoader from "vue-spinner/src/PulseLoader";
 export default {
   mounted() {
     setTimeout(() => {
       this.id = sessionStorage.getItem("id");
       this.image = sessionStorage.getItem('imagen')
       this.nombreUser = sessionStorage.getItem('nombre')
-    }, 1500);
+      this.cargar = false
+    },1000);
   },
   name: "app",
   data() {
     return {
-      home: true,
+      home: false,
       search: false,
       person: false,
       notificacion: false,
-      person: false,
+      person: true,
       user: [],
       id: "",
       image:"",
-      nombreUser:""
-     
+      nombreUser:"",
+      usuario: sessionStorage.getItem('usuario'),
+     cargar:true 
     };
   },
   computed: {
@@ -196,9 +204,15 @@ export default {
       sessionStorage.removeItem("id");
       sessionStorage.removeItem("nombre");
       sessionStorage.removeItem("imagen");
+      sessionStorage.removeItem('idGrupo');
+      sessionStorage.removeItem('usuario')
       router.push({ name: "Login" });
     },
     ...mapActions(["borrarID"])
+  },
+  components: {
+    PulseLoader,
+   
   }
 };
 </script>

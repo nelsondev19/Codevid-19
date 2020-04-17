@@ -93,6 +93,7 @@ router.post("/createGrupo", async (req, res) => {
   grupo.fechaCreacionGrupo = req.body.fechaCreacionGrupo;
   grupo.creador = [user];
   grupo._id = user._id
+  grupo.asignado = [{elegido: false}]
   await grupo.save();
   console.log(grupo);
   res.status(200).send('recibido correctamente')

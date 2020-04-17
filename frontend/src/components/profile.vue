@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+      
       <div class="container">
         <br />
         <div class="row">
@@ -21,13 +22,14 @@
 
                 <p class="card-text">{{ usuario.firstname }}</p>
                 <p class="card-text">{{ usuario.email }}</p>
-      <pacman-loader :loading="cargar"></pacman-loader>
+      <pulse-loader :loading="cargar" ></pulse-loader>
                 <div v-if="!cargar">
                   <input type="file" ref="boton" class="d-none" @change="buscarImagen($event)" />
                   <button
                     class="mt-3 btn btn-outline-success btn-block"
                     @click="$refs.boton.click()"
                   >Buscar Imagen</button>
+                  {{ usuario.urlimage}}
                   <div class="card-header text-center mt-4" v-if="archivo != null">
                     <img class="my-3 mx-3" :src="URLimage" height="300" width="500" />
                     <h3>{{ archivo.name }}</h3>
@@ -71,25 +73,13 @@ import axios from 'axios'
 export default {
   async created() {
     await this.OneUser();
-  },
-  mounted() {
-    this.putNavbar(true);
-
-      sessionStorage.setItem("id", this.$route.params.id);
+    this.putNavbar(true);   
+    sessionStorage.setItem("id", this.$route.params.id);
  
     const id = sessionStorage.getItem("id");
     console.log("mi id es ", id);
-
-    setTimeout(() => {
-      let apellido = this.usuario.last_name;
-      if (apellido == undefined) {
-        apellido = "";
-      }
-      sessionStorage.setItem('idGrupo', this.usuario.idGrupo)
-      sessionStorage.setItem('imagen', this.usuario.urlimage)
-      sessionStorage.setItem('nombre',this.usuario.firstname + " " + apellido);
-    }, 1000);
   },
+  
   data() {
     return {
       usuario: [],
@@ -98,6 +88,7 @@ export default {
       URLimage: "",
       cloudimage: null,
       cargar: false,
+      loading:true,
       CLOUDINARY_URL: "https://api.cloudinary.com/v1_1/dvakdmdxl/image/upload",
       CLOUDINARY_UPLOAD_PRESET: "larhns0r"
     };
@@ -107,7 +98,22 @@ export default {
     OneUser() {
       fetch("http://localhost:3000/oneUser/" + this.$route.params.id)
         .then(res => res.json())
-        .then(data => (this.usuario = data))
+        .then(data => {
+          (this.usuario = data)
+      sessionStorage.setItem("id", this.$route.params.id);
+    const id = sessionStorage.getItem("id");
+    console.log("mi id es ", id)
+      let apellido = this.usuario.last_name;
+      if (apellido == undefined) {
+        apellido = "";
+      }
+      sessionStorage.setItem('idGrupo', this.usuario.idGrupo)
+      sessionStorage.setItem('imagen', this.usuario.urlimage)
+      sessionStorage.setItem('nombre',this.usuario.firstname + " " + apellido);
+      sessionStorage.setItem('usuario',this.usuario)
+      this.loading = false
+
+          })
         .catch(err => {
           if (err) {
             // si nos da error significa que no existe el id que le pasamos en la base de datos
@@ -161,6 +167,10 @@ export default {
           this.actualizarFoto()
           this.archivo =null
           this.cargar = false;
+          setTimeout(() => {
+            
+            this.OneUser()
+          }, 500);
         }) // obtenemos la url de la imagen guardada
         .catch(error => console.log("ocurrio un error ", error)); //capturamos un posible error
     },
