@@ -29,8 +29,7 @@
                     class="mt-3 btn btn-outline-success btn-block"
                     @click="$refs.boton.click()"
                   >Buscar Imagen</button>
-                  {{ usuario.urlimage}}
-                  <div class="card-header text-center mt-4" v-if="archivo != null">
+            <div class="card-header text-center mt-4" v-if="archivo != null">
                     <img class="my-3 mx-3" :src="URLimage" height="300" width="500" />
                     <h3>{{ archivo.name }}</h3>
                     <input name="image" v-model="cloudimage" class="d-none" />
@@ -123,10 +122,12 @@ export default {
      
     },
     cerrarSesion() {
-      sessionStorage.removeItem("idGrupo");
-      sessionStorage.removeItem("id");
+            sessionStorage.removeItem("id");
       sessionStorage.removeItem("nombre");
       sessionStorage.removeItem("imagen");
+      sessionStorage.removeItem('idGrupo');
+      sessionStorage.removeItem('usuario')
+      
       router.push({ name: "Login" });
     },
     async buscarImagen(event) {

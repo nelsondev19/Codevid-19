@@ -89,7 +89,6 @@
               </div>
             </div>
             <div class="card mr-2 ml-4" v-if="elegido">
-              {{ asignado }}
               <div class="card-body text-center">
                 <p class="font-weight-bolder">{{ asignado.firstname }}</p>
                 <p>{{ asignado.email }}</p>
@@ -173,13 +172,6 @@
         >
           Asignar
         </button>
-        <button
-          type="button"
-          class="btn bg-primary btn-block text-white"
-          @click="obtenerPermiso()"
-        >
-          Ver permiso
-        </button>
         <br />
         <p>tu permiso termina en:</p>
         <div class="alert alert-primary" role="alert">{{ horaAdelantada }}</div>
@@ -261,7 +253,7 @@ export default {
       fetch("http://localhost:3000/quitarAsignado", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idAsignado: this.asignado._id }),
+        body: JSON.stringify({ "idAsignado": this.asignado._id ,"idGrupo": this.family._id }),
       })
         .then((res) => res.json())
         .then((data) => console.log(data))

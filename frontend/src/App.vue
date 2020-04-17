@@ -142,7 +142,11 @@ export default {
       this.image = sessionStorage.getItem('imagen')
       this.nombreUser = sessionStorage.getItem('nombre')
       this.cargar = false
-    },1000);
+      // si no existe el usuario en el session storage lo redirecciona
+      if(!this.usuario){
+        router.push({name:'Login'})
+      }
+    },2000);
   },
   name: "app",
   data() {

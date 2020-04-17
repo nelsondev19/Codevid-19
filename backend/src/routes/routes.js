@@ -157,19 +157,24 @@ router.get('/getFamily/:idgrupo', async(req,res)=> {
 //asignar persona                                   
 router.post('/AsignarPersona', async(req,res)=> {
   console.log(req.body)
-  const userAsignado = await User.findByIdAndUpdate({_id: req.body.idAsignado},{elegido:true, fechaCaducidad:  new Date().setSeconds(500)}, {new: true})
+
+  const userAsignado = await User.findByIdAndUpdate({_id: req.body.idAsignado},{elegido:true}, {new: true})
 
   const grupo =  await  Grupo.findByIdAndUpdate({_id: req.body.idGrupo},{asignado: userAsignado},{new:true})
   
   res.json({"mensaje": "usuario asignado correctamente" })
 })
 
+
+
 //ruta para borrar el asignado cada 2 dias
 router.post('/quitarAsignado', async (req,res )=> {
+  console.log(req.body)
 const id = req.body.idAsignado
 //el metodo $pull elimina el usuario del arreglo asignado
-const grupo = await Grupo.findByIdAndUpdate( { } ,{ $pull: { asignado: { _id : id }} } , {new : true})
-await User.findByIdAndUpdate({_id: id},{elegido:true, fechaCaducidad:  new Date().setSeconds(500)}, {new: true})
+const userAsignado = await User.findByIdAndUpdate({_id: req.body.idAsignado}, {elegido:false }, {new: true})
+
+const grupo =  await  Grupo.findByIdAndUpdate({_id: req.body.idGrupo},{asignado: userAsignado},{new:true})
 res.json({"mensaje": "se elimino el usuario correctamente"})
 
 })
