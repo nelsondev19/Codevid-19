@@ -37,8 +37,8 @@
           </div>
         </div>
         <div class="col-8">
-          <div class="card border-0" v-if="listAsignado[0].name == '' && listAsignado[0].id == 0 ">
-            <div class="card-body text-center">
+          <div class="card border-0">
+            <div class="card-body text-center"  v-show="listAsignado[0].name  == null && asignar == false">
               <img
                 src="../imagenes/select-user.png"
                 alt="seleccion de perfil"
@@ -50,17 +50,17 @@
               >Selecciona un familiar para luego generar un permiso de salida</p>
             </div>
           </div>
-          <div v-else>
+          <div  >
             <br />
             <br />
             <br />
             <br />
-            <div class="card mr-2 ml-4">
-              <div class="card-body text-center">
+            <div class="card mr-2 ml-4" v-show="asignar">
+              <div class="card-body text-center" >
                 <p class="font-weight-bolder">{{listAsignado[0].name}}</p>
                 <p>{{listAsignado[0].email}}</p>
                 <button class="btn btn-primary"  @click="AsignarUsuario(listAsignado[0].id , listAsignado[0].idGrupo)">Asignar</button>
-                <p class="mt-2">tu permiso termina en:</p>
+                  <p class="mt-2">tu permiso termina en:</p>
                 <div class="alert alert-primary" role="alert">{{horaAdelantada}}</div>
               </div>
             </div>
@@ -68,7 +68,9 @@
         </div>
       </div>
     </div>
-
+    
+    
+<!-- Aqui empieza en movil -->
     <div class="quitar-scroll mostrar">
       <div>
         <div class="nav-scroller py-1 mb-2">
@@ -113,12 +115,12 @@
         />
         <br />
         <br />
-        <p class="card-text">{{listAsignado[0].nam}}</p>
+        <p class="card-text">{{listAsignado[0].name}}</p>
         <button
           type="button"
           class="btn bg-primary btn-block text-white"
           @click="obtenerPermiso()"
-          v-show="permiso"
+
         >Asignar</button>
         <button
           type="button"
@@ -143,6 +145,7 @@ export default {
     this.getGrupo();
   },
   mounted() {
+    
     setInterval(() => {
       this.cuentaAtras();
     }, 1000);
@@ -151,14 +154,21 @@ export default {
     return {
       family: [],
       list2: [],
-      listAsignado: [{ name: "", id: 0 , email: "" ,idGrupo:""}],
+      listAsignado: [{ name: null, id: 0 , email: "" ,idGrupo:""}],
       controlOnStart: true,
-      permiso: false,
-      horaAdelantada: ""
-      
+      horaAdelantada: "",
+      asignar: false
     };
   },
   methods: {
+      mostrarNotificacion() {
+      this.$toast.open({
+        message: `Se asigno correctamente`,
+        type: "success",
+        duration: 3000,
+        dismissible: true
+      });
+    },
     getGrupo() {
       fetch(
         "http://localhost:3000/getFamily/" + sessionStorage.getItem("idGrupo")
@@ -166,15 +176,14 @@ export default {
         .then(res => res.json())
         .then(data => {
           console.log(data);
+          
           this.family = data;
         })
         .catch(err => console.log(err));
     },
     agregarPersona(nombre, idUser, email, idGrupo) {
+      this.asignar = true
       this.listAsignado = [{ name: nombre, id: idUser , email: email, idGrupo:idGrupo}];
-    },
-    obtenerPermiso() {
-      this.permiso = !this.permiso;
     },
     cuentaAtras() {
       let fecha = new Date().setSeconds(172800); //adelanta la hora actual en dos dias
@@ -195,6 +204,7 @@ export default {
         .then(data => {
             console.log(data);
             this.mostrarNotificacion()
+            this.getGrupo()// cuando se asigna un usuario recarga para pedir los datos nuevos del grupo
         })
         .catch(err => {
           console.log(err);

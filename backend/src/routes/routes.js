@@ -156,13 +156,12 @@ router.get('/getFamily/:idgrupo', async(req,res)=> {
 //asignar persona                                   
 router.post('/AsignarPersona', async(req,res)=> {
   console.log(req.body)
-  const userAsignado = await User.findOne({_id: req.body.idAsignado})
+  const userAsignado = await User.findByIdAndUpdate({_id: req.body.idAsignado},{elegido:true}, {new: true})
 
-  const grupo =  await  Grupo.findOne({_id: req.body.idGrupo})
+  const grupo =  await  Grupo.findByIdAndUpdate({_id: req.body.idGrupo},{asignado: userAsignado},{new:true})
   
-    
   res.json({"asignado": "prueba" })
 })
 
 
-module.exports = router;
+module.exports = router;  

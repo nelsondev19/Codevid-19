@@ -40,7 +40,8 @@ const grupoSchema = new Schema({
       urlimage: String,
       _id: String,
       incluido: { type: Boolean, default: false },
-      idGrupo:{type:String}
+      idGrupo:{type:String},
+      elegido:{type:Boolean , default:false}
     },
   ],
 });

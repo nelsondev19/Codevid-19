@@ -11,7 +11,8 @@ const userSchema = new Schema({
     _id:String,
     incluido: {type: Boolean, default: false},
     DateCreation: {type:Date , default: new Date().toISOString()},
-    idGrupo:{type:String}
+    idGrupo:{type:String},
+    elegido:{type:Boolean , default:false}
 }); 
 userSchema.methods.encryptPassword =  (password) => {
     return   bcrypt.hashSync(password, bcrypt.genSaltSync(10))
