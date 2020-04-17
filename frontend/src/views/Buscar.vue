@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- Colocando spinner de carga -->
-    <div class="d-flex justify-content-center mt-2" v-if="carga">
-      <div class="spinner-border" role="status"></div>
-    </div>
 
     <!-- pantalla en pc -->
     <div class="no-mostrar-mobile">
@@ -22,6 +18,12 @@
                 v-model="filtroUsuarios"
               />
             </div>
+
+            <!-- Colocando spinner de carga -->
+    <div class="d-flex justify-content-center mt-2" v-if="carga">
+      <div class="spinner-border" role="status"></div>
+    </div>
+    
           </div>
           <div class="col"></div>
         </div>
@@ -31,7 +33,8 @@
     <div class="container no-mostrar-mobile">
       <div class="row">
         <div class="col-md-4" v-for="u in BuscarUsuario" :key="u._id">
-          <div class="card mt-4">
+            
+          <div  class="card mt-4" >
             <div class="card-body mt-4">
               <img
                 :src="u.urlimage"

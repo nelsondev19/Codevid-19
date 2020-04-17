@@ -29,11 +29,10 @@ const grupoSchema = new Schema({
   ],
   fechaCreacionGrupo: { type: String, default: new Date().toISOString()},
   codigo: String,
-  fechaInicio: {type: String},
-  fechaCaducidad: { type: String },
+  fechaInicioAsignado: {type: String},
   asignado: [
-    
-    {
+    { 
+      fechaCaducidad: { type: Number , default: new Date().setSeconds(500)},//adelanta la hora actual en dos dias new Date().setSeconds(172800)
       email: String,
       password: String,
       firstname: String,

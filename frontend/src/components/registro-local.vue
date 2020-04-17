@@ -90,8 +90,6 @@
                       <a
                         class="btn-block mt-3 text-center"
                       >¿Ya tienes una cuenta? , aca puedes iniciar sesión</a>
-
-                      npm install vue-spinner
                     </router-link>
                   </form>
                 </div>
