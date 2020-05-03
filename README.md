@@ -1,6 +1,6 @@
 # Codevid-19
 
-Es una aplicación web la cual esta orientada a la solución del problema “muchas personas en la calle con un objetivo innecesario o invalido”
+Es una aplicación web la cual esta orientada a la solución del problema **“muchas personas en la calle con un objetivo innecesario o invalido”**
 
 ## ¿ En que consiste la aplicación web?
 
