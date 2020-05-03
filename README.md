@@ -30,5 +30,6 @@ En crear un grupo en el cual se integren grupos de personas **(familiares)** par
 * Github
 [https://github.com/SamuelCamposM](https://github.com/SamuelCamposM)
 
+![imagen final](covid-19.png)
 
 
